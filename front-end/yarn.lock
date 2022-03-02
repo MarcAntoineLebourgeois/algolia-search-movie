@@ -1963,6 +1963,23 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-instantsearch-core@*":
+  version "6.10.7"
+  resolved "https://registry.yarnpkg.com/@types/react-instantsearch-core/-/react-instantsearch-core-6.10.7.tgz#a40b50890a2203011bd3ce6a7180aa15b1aa7f69"
+  integrity sha512-bG87zLTm5NVzMGVgP6jZtNZxOiHWMp8++MvWeVMg131vXyTpvG5wwuvrOHjWAZ7fq73QQCyCWN7ktKEqj4mqVg==
+  dependencies:
+    "@types/react" "*"
+    algoliasearch ">=4"
+    algoliasearch-helper ">=3"
+
+"@types/react-instantsearch-dom@^6.12.2":
+  version "6.12.2"
+  resolved "https://registry.yarnpkg.com/@types/react-instantsearch-dom/-/react-instantsearch-dom-6.12.2.tgz#4ed072d526d7989af74f0df3883a415933f628aa"
+  integrity sha512-MsVn01rRXsthQyKkUfcXAaiNBoCCsiPiD2/gzPx050QO/g2VfTacOTzSZfh29+0luRqAV58abnG34eQ/luq2Wg==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-instantsearch-core" "*"
+
 "@types/react@*", "@types/react@^17.0.39":
   version "17.0.39"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.39.tgz#d0f4cde092502a6db00a1cded6e6bf2abb7633ce"
@@ -2387,14 +2404,14 @@ ajv@^8.0.0, ajv@^8.6.0, ajv@^8.8.0:
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
-algoliasearch-helper@^3.7.0:
+algoliasearch-helper@>=3, algoliasearch-helper@^3.7.0:
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/algoliasearch-helper/-/algoliasearch-helper-3.7.0.tgz#c0a0493df84d850360f664ad7a9d4fc78a94fd78"
   integrity sha512-XJ3QfERBLfeVCyTVx80gon7r3/rgm/CE8Ha1H7cbablRe/X7SfYQ14g/eO+MhjVKIQp+gy9oC6G5ilmLwS1k6w==
   dependencies:
     "@algolia/events" "^4.0.1"
 
-"algoliasearch@>= 3.27.1 < 5", algoliasearch@^4.12.2:
+"algoliasearch@>= 3.27.1 < 5", algoliasearch@>=4, algoliasearch@^4.12.2:
   version "4.12.2"
   resolved "https://registry.yarnpkg.com/algoliasearch/-/algoliasearch-4.12.2.tgz#d7672a15b8fd1b261d9ae193535b68bcb189cfd2"
   integrity sha512-bn1P9+V415zeDQJtXn+1SwuwedEAv9/LJAxt8XwR6ygH/sMwaHSm2hpkz8wIbCBt/tKQ43TL672Kyxzv5PwGgQ==
