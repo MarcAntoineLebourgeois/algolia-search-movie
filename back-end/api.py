@@ -3,6 +3,9 @@ import sqlite3
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from database_generation import database_generation 
+from os import getenv
+from algoliasearch.search_client import SearchClient
+from dotenv import load_dotenv, find_dotenv
 
 
 def connect_to_db():
@@ -108,6 +111,17 @@ def delete_movie(movie_id):
     return message
 
 database_generation()
+
+# Algolia search
+load_dotenv(find_dotenv())
+ALGOLIA_APP_ID = getenv('ALGOLIA_APP_ID')
+ALGOLIA_API_KEY = getenv('ALGOLIA_API_KEY')
+ALGOLIA_INDEX_NAME = getenv('ALGOLIA_INDEX_NAME')
+client = SearchClient.create(ALGOLIA_APP_ID, ALGOLIA_API_KEY)
+index = client.init_index(ALGOLIA_INDEX_NAME)
+movies = get_movies()
+res = index.save_objects(movies)
+res.wait()
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})

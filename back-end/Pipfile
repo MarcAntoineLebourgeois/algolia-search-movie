@@ -7,6 +7,8 @@ name = "pypi"
 flask = "*"
 flask-sqlalchemy = "*"
 pandas = "*"
+algoliasearch = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
