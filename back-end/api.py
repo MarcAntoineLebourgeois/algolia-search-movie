@@ -139,25 +139,25 @@ update_algolia_index(movies,"add")
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-@app.route('/api/movies', methods=['GET'])
+@app.route('/api/v1/movies', methods=['GET'])
 def api_get_movies():
     return jsonify(get_movies())
 
-@app.route('/api/movies/<movie_id>', methods=['GET'])
+@app.route('/api/v1/movies/<movie_id>', methods=['GET'])
 def api_get_movie(movie_id):
     return jsonify(get_movie_by_id(movie_id))
 
-@app.route('/api/movies/add',  methods = ['POST'])
+@app.route('/api/v1/movies/add',  methods = ['POST'])
 def api_add_movie():
     movie = request.get_json()
     return jsonify(insert_movie(movie))
 
-@app.route('/api/movies/update',  methods = ['PUT'])
+@app.route('/api/v1/movies/update',  methods = ['PUT'])
 def api_update_movie():
     movie = request.get_json()
     return jsonify(update_movie(movie))
 
-@app.route('/api/movies/delete/<movie_id>',  methods = ['DELETE'])
+@app.route('/api/v1/movies/delete/<movie_id>',  methods = ['DELETE'])
 def api_delete_movie(movie_id):
     return jsonify(delete_movie(movie_id))
 
