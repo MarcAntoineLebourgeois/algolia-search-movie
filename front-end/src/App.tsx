@@ -1,5 +1,6 @@
 import algoliasearch from "algoliasearch";
 import { Hits, InstantSearch, SearchBox } from "react-instantsearch-dom";
+import { CustomHit } from "./components";
 
 const searchClient = algoliasearch(
   "RWCX86AE0B",
@@ -9,7 +10,9 @@ const searchClient = algoliasearch(
 const App = () => (
   <InstantSearch searchClient={searchClient} indexName="Algolia_search_movie">
     <SearchBox />
-    <Hits />
+    <>
+      <Hits hitComponent={CustomHit} />
+    </>
   </InstantSearch>
 );
 
