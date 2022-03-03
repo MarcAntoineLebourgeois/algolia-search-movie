@@ -1,26 +1,13 @@
-import algoliasearch from "algoliasearch";
-import {
-  Hits,
-  InstantSearch,
-  Pagination,
-  SearchBox,
-} from "react-instantsearch-dom";
-import { CustomHit } from "./components";
-
-const searchClient = algoliasearch(
-  "RWCX86AE0B",
-  "a504b6788be5ef2ba3cd3f08b12d860a"
-);
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { SearchPage } from "./components";
 
 const App = () => (
-  <>
-    <h1>Algolia Search Movie</h1>
-    <InstantSearch searchClient={searchClient} indexName="Algolia_search_movie">
-      <SearchBox />
-      <Hits hitComponent={CustomHit} />
-      <Pagination />
-    </InstantSearch>
-  </>
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<SearchPage />} />
+      {/* <Route path="/add_movie" element={<About />} /> */}
+    </Routes>
+  </BrowserRouter>
 );
 
 export default App;
