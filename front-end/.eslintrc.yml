@@ -44,10 +44,6 @@ rules:
     - smart
   grouped-accessor-pairs: error
   guard-for-in: error
-  import/no-internal-modules:
-    - error
-    - allow:
-        - assets/*
   max-classes-per-file:
     - error
     - 1
