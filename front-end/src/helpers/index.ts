@@ -1,0 +1,1 @@
+export { stringToArray } from "./stringToArray";
