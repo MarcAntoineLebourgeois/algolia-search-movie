@@ -8,10 +8,12 @@ export const CustomHit: FC<Hit> = ({ hit }) => (
       <img src={hit.image} />
     </div>
     <div>
-      <div>{hit.title}</div>
+      <h3>Title: {hit.title}</h3>
+      <h4>Year: {hit.year}</h4>
       <div>
-        {stringToArray(hit.actors).map((actor, key) => (
-          <div key={key}>{actor}</div>
+        <p>Genre:</p>
+        {stringToArray(hit.genre).map((genre, key) => (
+          <div key={key}>{genre}</div>
         ))}
       </div>
     </div>
