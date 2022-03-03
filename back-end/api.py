@@ -12,6 +12,21 @@ def connect_to_db():
     conn = sqlite3.connect('./database.sqlite')
     return conn
 
+# Algolia search
+def update_algolia_index(array, method):
+    load_dotenv(find_dotenv())
+    ALGOLIA_APP_ID = getenv('ALGOLIA_APP_ID')
+    ALGOLIA_API_KEY = getenv('ALGOLIA_API_KEY')
+    ALGOLIA_INDEX_NAME = getenv('ALGOLIA_INDEX_NAME')
+    client = SearchClient.create(ALGOLIA_APP_ID, ALGOLIA_API_KEY)
+    index = client.init_index(ALGOLIA_INDEX_NAME)
+    if method == "add":
+        res = index.save_objects(array)
+    if method == "delete":
+        res = index.delete_object(array)
+    if method == "update":
+        res = index.partial_update_objects(array)
+    res.wait()
 
 def insert_movie(movie):
     try:
@@ -26,6 +41,7 @@ def insert_movie(movie):
         ,(movie['title'], movie['alternative_titles'], movie['year'], movie['image'], movie['color'], movie['score'], movie['rating'], movie['actors'], movie['actor_facets'], movie['genre'], movie['objectID']) 
         )
         conn.commit()
+        update_algolia_index([movie],"add")
     except:
         conn().rollback()
     finally:
@@ -88,6 +104,7 @@ def update_movie(movie):
         (movie['title'], movie['alternative_titles'], movie['year'], movie['image'], movie['color'], movie['score'], movie['rating'], movie['actors'], movie['actor_facets'], movie['genre'], movie['objectID']) 
         )
         conn.commit()
+        update_algolia_index([movie],"update")
     except:
         conn.rollback()
     finally:
@@ -102,6 +119,8 @@ def delete_movie(movie_id):
         conn.execute("DELETE from movieTable WHERE objectID = ?", (movie_id,))
         conn.commit()
         message["status"] = "movie deleted successfully"
+        movie = get_movie_by_id(movie_id)
+        update_algolia_index([movie],"delete")
     except:
         conn.rollback()
         message["status"] = "Cannot delete movie"
@@ -110,18 +129,11 @@ def delete_movie(movie_id):
 
     return message
 
-database_generation()
 
-# Algolia search
-load_dotenv(find_dotenv())
-ALGOLIA_APP_ID = getenv('ALGOLIA_APP_ID')
-ALGOLIA_API_KEY = getenv('ALGOLIA_API_KEY')
-ALGOLIA_INDEX_NAME = getenv('ALGOLIA_INDEX_NAME')
-client = SearchClient.create(ALGOLIA_APP_ID, ALGOLIA_API_KEY)
-index = client.init_index(ALGOLIA_INDEX_NAME)
+
+database_generation()
 movies = get_movies()
-res = index.save_objects(movies)
-res.wait()
+update_algolia_index(movies,"add")
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
