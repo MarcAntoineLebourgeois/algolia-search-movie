@@ -1,11 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { SearchPage } from "./components";
+import { SearchPage, UpdateMoviePage } from "./components";
 
 const App = () => (
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<SearchPage />} />
-      {/* <Route path="/add_movie" element={<About />} /> */}
+      <Route path="/update_movie" element={<UpdateMoviePage />} />
     </Routes>
   </BrowserRouter>
 );
