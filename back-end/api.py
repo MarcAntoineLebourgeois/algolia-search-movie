@@ -14,23 +14,28 @@ def connect_to_db():
 
 # Algolia search
 def update_algolia_index(array, method):
-    load_dotenv(find_dotenv())
-    ALGOLIA_APP_ID = getenv('ALGOLIA_APP_ID')
-    ALGOLIA_API_KEY = getenv('ALGOLIA_API_KEY')
-    ALGOLIA_INDEX_NAME = getenv('ALGOLIA_INDEX_NAME')
-    client = SearchClient.create(ALGOLIA_APP_ID, ALGOLIA_API_KEY)
-    index = client.init_index(ALGOLIA_INDEX_NAME)
-    if method == "add":
-        res = index.save_objects(array)
-    if method == "delete":
-        res = index.delete_object(array)
-    if method == "update":
-        res = index.partial_update_objects(array)
-    res.wait()
-    # index.clear_objects()
+    try:
+        load_dotenv(find_dotenv())
+        ALGOLIA_APP_ID = getenv('ALGOLIA_APP_ID')
+        ALGOLIA_API_KEY = getenv('ALGOLIA_API_KEY')
+        ALGOLIA_INDEX_NAME = getenv('ALGOLIA_INDEX_NAME')
+        client = SearchClient.create(ALGOLIA_APP_ID, ALGOLIA_API_KEY)
+        index = client.init_index(ALGOLIA_INDEX_NAME)
+        if method == "add":
+            res = index.save_objects(array)
+        if method == "delete":
+            res = index.delete_objects(array)
+        if method == "update":
+            res = index.partial_update_objects(array)
+        res.wait()
+        # index.clear_objects()
+    except:
+        print("Could not update Algolia index")
+
 
 def insert_movie(movie):
     try:
+        update_algolia_index([movie],"add")
         conn = connect_to_db()
         cur = conn.cursor()
         cur.execute("""
@@ -42,7 +47,6 @@ def insert_movie(movie):
         ,(movie['title'], movie['alternative_titles'], movie['year'], movie['image'], movie['color'], movie['score'], movie['rating'], movie['actors'], movie['actor_facets'], movie['genre'], movie['objectID']) 
         )
         conn.commit()
-        update_algolia_index([movie],"add")
     except:
         conn().rollback()
     finally:
@@ -96,6 +100,7 @@ def get_movie_by_id(movie_id):
 
 def update_movie(movie):
     try:
+        update_algolia_index([movie],"update")
         conn = connect_to_db()
         cur = conn.cursor()
         cur.execute("""
@@ -105,7 +110,6 @@ def update_movie(movie):
         (movie['title'], movie['alternative_titles'], movie['year'], movie['image'], movie['color'], movie['score'], movie['rating'], movie['actors'], movie['actor_facets'], movie['genre'], movie['objectID']) 
         )
         conn.commit()
-        update_algolia_index([movie],"update")
     except:
         conn.rollback()
     finally:
@@ -116,12 +120,11 @@ def update_movie(movie):
 def delete_movie(movie_id):
     message = {}
     try:
+        update_algolia_index([movie_id],"delete")
         conn = connect_to_db()
         conn.execute("DELETE from movieTable WHERE objectID = ?", (movie_id,))
         conn.commit()
         message["status"] = "movie deleted successfully"
-        movie = get_movie_by_id(movie_id)
-        update_algolia_index([movie],"delete")
     except:
         conn.rollback()
         message["status"] = "Cannot delete movie"
