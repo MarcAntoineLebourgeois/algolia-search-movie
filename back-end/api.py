@@ -27,6 +27,7 @@ def update_algolia_index(array, method):
     if method == "update":
         res = index.partial_update_objects(array)
     res.wait()
+    # index.clear_objects()
 
 def insert_movie(movie):
     try:

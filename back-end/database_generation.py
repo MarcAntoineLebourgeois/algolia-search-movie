@@ -21,12 +21,15 @@ def database_generation():
         values = [] 
         for data in json_data:
             for i in columns:
-                value.append(str(dict(data).get(i)))   
-            values.append(list(value)) 
+                if isinstance(dict(data).get(i), list):
+                    value.append(str(dict(data).get(i)))
+                else: 
+                    value.append(dict(data).get(i))
+            values.append(list(value))
             value.clear()
-            
+        
         # Time to generate the create and insert queries and apply it to the sqlite3 database       
-        create_query = "create table if not exists movieTable ({0})".format(" text,".join(columns))
+        create_query = "create table if not exists movieTable ({0})".format(",".join(columns))
         insert_query = "insert into movieTable ({0}) values (?{1})".format(",".join(columns), ",?" * (len(columns)-1))    
         print("insert has started at " + str(datetime.now()))  
         c = db.cursor()   
