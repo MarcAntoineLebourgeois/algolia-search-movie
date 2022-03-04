@@ -12,6 +12,7 @@ import {
 import { Link } from "react-router-dom";
 import { getSearchClient } from "../helpers";
 import { CustomHit } from "../components";
+import { algoliaIndexName } from "../data";
 
 export const SearchPage: FC = () => (
   <>
@@ -35,7 +36,7 @@ export const SearchPage: FC = () => (
     </Link>
     <InstantSearch
       searchClient={getSearchClient()}
-      indexName="Algolia_search_movie"
+      indexName={algoliaIndexName}
     >
       <SearchBox
         autoFocus
