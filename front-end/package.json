@@ -14,6 +14,7 @@
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.12",
     "@types/react-instantsearch-dom": "^6.12.2",
+    "@types/uuid": "^8.3.4",
     "algoliasearch": "^4.12.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

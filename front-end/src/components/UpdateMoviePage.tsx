@@ -4,9 +4,10 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { Movie } from "../types";
 import { FormInputText } from "./FormInputText";
+import { v4 as uuidv4 } from "uuid";
 
 const defaultValues: Movie = {
-  objectId: "",
+  objectId: uuidv4(),
   title: "",
   alternative_titles: "",
   year: 0,
