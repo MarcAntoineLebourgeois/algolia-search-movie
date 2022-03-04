@@ -10,7 +10,7 @@ import {
   SearchBox,
 } from "react-instantsearch-dom";
 import { Link } from "react-router-dom";
-import { useSearchClient } from "../hooks";
+import { getSearchClient } from "../helpers";
 import { CustomHit } from "./CustomHit";
 
 export const SearchPage: FC = () => (
@@ -34,7 +34,7 @@ export const SearchPage: FC = () => (
       </Button>
     </Link>
     <InstantSearch
-      searchClient={useSearchClient()}
+      searchClient={getSearchClient()}
       indexName="Algolia_search_movie"
     >
       <SearchBox
