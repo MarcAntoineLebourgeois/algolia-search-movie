@@ -1,16 +1,16 @@
-import { Button, Paper } from "@mui/material";
-import { FC } from "react";
+import { Button, Paper, Typography } from "@mui/material";
+import { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Movie } from "../types";
 import { FormInputText } from "./FormInputText";
 import { v4 as uuidv4 } from "uuid";
-import { addMovie } from "../helpers";
+import { addMovie, getMovie } from "../helpers";
 import { useNavigate } from "react-router-dom";
 
-const defaultValues: Movie = {
+const newMovieValues: Movie = {
   objectID: uuidv4(),
-  title: "",
+  title: "test",
   alternative_titles: "",
   year: 0,
   image: "",
@@ -23,12 +23,38 @@ const defaultValues: Movie = {
 };
 
 export const UpdateMoviePage: FC = () => {
-  const methods = useForm<Movie>({ defaultValues: defaultValues });
-  const { handleSubmit, reset, control } = methods;
+  const [searchParams] = useSearchParams();
+  const [defaultMovie, setDefaultMovie] = useState(newMovieValues);
+  const methods = useForm<Movie>({ defaultValues: defaultMovie });
+  const { handleSubmit, reset, control, setValue } = methods;
   const navigate = useNavigate();
+  console.log("defaultMovie", defaultMovie);
+
+  useEffect(() => {
+    const movieToUpdateId = searchParams.get("objectID");
+    if (movieToUpdateId)
+      getMovie(movieToUpdateId).then((movie) => setDefaultMovie(movie));
+  }, []);
+
+  useEffect(() => {
+    if (defaultMovie) {
+      setValue("objectID", defaultMovie.objectID);
+      setValue("title", defaultMovie.title);
+      setValue("alternative_titles", defaultMovie.alternative_titles);
+      setValue("year", defaultMovie.year);
+      setValue("image", defaultMovie.image);
+      setValue("color", defaultMovie.color);
+      setValue("score", defaultMovie.score);
+      setValue("rating", defaultMovie.rating);
+      setValue("actors", defaultMovie.actors);
+      setValue("actor_facets", defaultMovie.actor_facets);
+      setValue("genre", defaultMovie.genre);
+    }
+  }, [defaultMovie]);
 
   const onSubmit = (data: Movie) => {
     addMovie(data);
+    console.log("data", data);
     navigate("/");
   };
 
@@ -45,7 +71,13 @@ export const UpdateMoviePage: FC = () => {
       <Link to="/">
         <Button variant="contained">Go back to search page</Button>
       </Link>
-      <FormInputText name="title" control={control} label="Title" />
+      <Typography>ObjectID: {defaultMovie.objectID}</Typography>
+      <FormInputText
+        name="title"
+        control={control}
+        label="Title"
+        value={defaultMovie.title}
+      />
       <FormInputText
         name="alternative_titles"
         control={control}

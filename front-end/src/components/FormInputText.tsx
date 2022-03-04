@@ -6,6 +6,7 @@ export type FormInputProps = {
   name: string;
   control: any; // eslint-disable-line
   label: string;
+  value?: string;
 };
 
 export const FormInputText = ({ name, control, label }: FormInputProps) => (
