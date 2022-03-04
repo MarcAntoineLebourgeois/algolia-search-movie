@@ -1,0 +1,8 @@
+{
+  "short_name": "Algolia Search Movie",
+  "name": "Algolia Search Movie",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
