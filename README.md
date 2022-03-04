@@ -7,7 +7,7 @@ Python & Flask are used for the back-end and React & Typescript for the front-en
 
 1- Clone the repository
 
-## Back-end
+### Back-end
 
 In the back-end folder,
 
@@ -22,7 +22,7 @@ flask run
 
 The local server should run by default on http://127.0.0.1:5000
 
-## Front-end
+### Front-end
 
 In the front-end folder,
 
@@ -40,6 +40,7 @@ The local server should run by default on http://127.0.0.1:3000
 For back-end tests, go to the back-end folder:
 
 ```bash
+pipenv shell
 pytest
 ```
 
