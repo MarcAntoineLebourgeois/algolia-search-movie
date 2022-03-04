@@ -30,7 +30,7 @@ export const Form: FC<FormProps> = ({
       margin: "10px 300px",
     }}
   >
-    {pageTitle}
+    <Typography fontSize={20}>{pageTitle}</Typography>
     <Link to="/">
       <Button variant="contained">Go back to search page</Button>
     </Link>
