@@ -19,7 +19,7 @@ export const FormInputText = ({ name, control, label }: FormInputProps) => (
         size="small"
         error={!!error}
         onChange={onChange}
-        value={value}
+        value={value || ""}
         fullWidth
         label={label}
         variant="outlined"
