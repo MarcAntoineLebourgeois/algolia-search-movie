@@ -5,8 +5,6 @@ name = "pypi"
 
 [packages]
 flask = "*"
-flask-sqlalchemy = "*"
-pandas = "*"
 algoliasearch = "*"
 python-dotenv = "*"
 requests = "*"
