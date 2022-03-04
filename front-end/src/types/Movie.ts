@@ -1,5 +1,5 @@
 export type Movie = {
-  objectId: string;
+  objectID: string;
   title: string;
   alternative_titles: string;
   year: number;

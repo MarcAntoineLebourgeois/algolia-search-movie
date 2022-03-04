@@ -5,9 +5,10 @@ import { Link } from "react-router-dom";
 import { Movie } from "../types";
 import { FormInputText } from "./FormInputText";
 import { v4 as uuidv4 } from "uuid";
+import { addMovie } from "../helpers";
 
 const defaultValues: Movie = {
-  objectId: uuidv4(),
+  objectID: uuidv4(),
   title: "",
   alternative_titles: "",
   year: 0,
@@ -23,7 +24,7 @@ const defaultValues: Movie = {
 export const UpdateMoviePage: FC = () => {
   const methods = useForm<Movie>({ defaultValues: defaultValues });
   const { handleSubmit, reset, control } = methods;
-  const onSubmit = (data: Movie) => console.log(data);
+  const onSubmit = (data: Movie) => addMovie(data);
 
   return (
     <Paper
