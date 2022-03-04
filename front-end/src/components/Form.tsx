@@ -30,12 +30,17 @@ export const Form: FC<FormProps> = ({
       margin: "10px 300px",
     }}
   >
-    <Typography fontSize={20}>{pageTitle}</Typography>
-    <Link to="/">
+    <Typography variant="h4">{pageTitle}</Typography>
+    <Link to="/" style={{ textDecoration: "none" }}>
       <Button variant="contained">Go back to search page</Button>
     </Link>
     <Typography>ObjectID: {defaultValues.objectID}</Typography>
-    <FormInputText name="title" control={control} label="Title" />
+    <FormInputText
+      name="title"
+      control={control}
+      label="Title"
+      isRequired={true}
+    />
     <FormInputText
       name="alternative_titles"
       control={control}

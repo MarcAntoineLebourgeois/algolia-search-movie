@@ -9,7 +9,7 @@ import { Loader } from "./Loader";
 
 const newMovieValues: Movie = {
   objectID: uuidv4(),
-  title: "test",
+  title: "",
   alternative_titles: "",
   year: 0,
   image: "",
@@ -24,6 +24,7 @@ const newMovieValues: Movie = {
 export const AddMoviePage: FC = () => {
   const { handleSubmit, reset, control } = useForm<Movie>({
     defaultValues: newMovieValues,
+    mode: "onBlur",
   });
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
