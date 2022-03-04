@@ -35,7 +35,12 @@ export const CustomHit: FC<Hit> = ({ hit }) => {
         </Typography>
         <Typography variant="body1">Year: {hit.year}</Typography>
         {hit.genre !== "" && (
-          <Typography variant="body1">
+          <Typography
+            variant="body1"
+            css={css`
+              margin-bottom: 10px;
+            `}
+          >
             Genre: {hit.genre.replaceAll("'", "")}
           </Typography>
         )}
@@ -43,6 +48,7 @@ export const CustomHit: FC<Hit> = ({ hit }) => {
           css={css`
             display: flex;
             flex-direction: row;
+            margin-bottom: 20px;
           `}
         >
           <Button
