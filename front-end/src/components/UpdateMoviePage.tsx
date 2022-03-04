@@ -6,6 +6,7 @@ import { Movie } from "../types";
 import { FormInputText } from "./FormInputText";
 
 const defaultValues: Movie = {
+  objectId: "",
   title: "",
   alternative_titles: "",
   year: 0,
@@ -20,7 +21,7 @@ const defaultValues: Movie = {
 
 export const UpdateMoviePage: FC = () => {
   const methods = useForm<Movie>({ defaultValues: defaultValues });
-  const { handleSubmit, reset, control, setValue, watch } = methods;
+  const { handleSubmit, reset, control } = methods;
   const onSubmit = (data: Movie) => console.log(data);
 
   return (

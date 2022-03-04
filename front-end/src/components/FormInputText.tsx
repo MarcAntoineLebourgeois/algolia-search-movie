@@ -2,15 +2,17 @@ import { TextField } from "@mui/material";
 import React from "react";
 import { Controller } from "react-hook-form";
 
-export const FormInputText = ({ name, control, label }: any) => (
+export type FormInputProps = {
+  name: string;
+  control: any; // eslint-disable-line
+  label: string;
+};
+
+export const FormInputText = ({ name, control, label }: FormInputProps) => (
   <Controller
     name={name}
     control={control}
-    render={({
-      field: { onChange, value },
-      fieldState: { error },
-      formState,
-    }) => (
+    render={({ field: { onChange, value }, fieldState: { error } }) => (
       <TextField
         helperText={error ? error.message : null}
         size="small"
