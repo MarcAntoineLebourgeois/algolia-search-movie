@@ -51,7 +51,6 @@ def insert_movie(movie):
         conn().rollback()
     finally:
         conn.close()
-    return 201
 
 
 def get_movies():
@@ -68,7 +67,7 @@ def get_movies():
         movies = [dict(movie) for movie in movie_list]
     except: 
         movies = []
-    return movies, 200
+    return movies
 
 
 def get_movie_by_id(movie_id):
@@ -93,7 +92,7 @@ def get_movie_by_id(movie_id):
         movie["objectID"] = row["objectID"]
     except:
         movie = {}
-    return movie, 200
+    return movie
 
 
 def update_movie(movie):
@@ -112,7 +111,7 @@ def update_movie(movie):
         conn.rollback()
     finally:
         conn.close()
-    return 201
+
 
 
 def delete_movie(movie_id):
@@ -129,7 +128,7 @@ def delete_movie(movie_id):
     finally:
         conn.close()
 
-    return message, 204
+    return message
 
 
 

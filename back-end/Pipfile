@@ -9,6 +9,9 @@ flask-sqlalchemy = "*"
 pandas = "*"
 algoliasearch = "*"
 python-dotenv = "*"
+requests = "*"
+pytest = "*"
+jsonschema = "*"
 
 [dev-packages]
 
