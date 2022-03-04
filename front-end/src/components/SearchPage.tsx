@@ -12,8 +12,8 @@ import { CustomHit } from "./CustomHit";
 export const SearchPage: FC = () => (
   <>
     <h1>Algolia Search Movie</h1>
-    <Link to="/update_movie">
-      <button>Go to update movie page</button>
+    <Link to="/add_movie">
+      <button>Add a movie</button>
     </Link>
     <InstantSearch
       searchClient={useSearchClient()}
