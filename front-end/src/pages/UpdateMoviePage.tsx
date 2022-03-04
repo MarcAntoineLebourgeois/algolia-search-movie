@@ -4,8 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { Movie } from "../types";
 import { getMovie, updateMovie } from "../helpers";
 import { useNavigate } from "react-router-dom";
-import { Form } from "./Form";
-import { Loader } from "./Loader";
+import { Form, Loader } from "../components";
 
 export const UpdateMoviePage: FC = () => {
   const [searchParams] = useSearchParams();

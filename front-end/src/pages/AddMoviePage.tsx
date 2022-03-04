@@ -4,8 +4,7 @@ import { Movie } from "../types";
 import { v4 as uuidv4 } from "uuid";
 import { addMovie } from "../helpers";
 import { useNavigate } from "react-router-dom";
-import { Form } from "./Form";
-import { Loader } from "./Loader";
+import { Form, Loader } from "../components";
 
 const newMovieValues: Movie = {
   objectID: uuidv4(),

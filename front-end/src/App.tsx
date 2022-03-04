@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { AddMoviePage, SearchPage, UpdateMoviePage } from "./components";
+import { AddMoviePage, SearchPage, UpdateMoviePage } from "./pages";
 
 const App = () => (
   <BrowserRouter>

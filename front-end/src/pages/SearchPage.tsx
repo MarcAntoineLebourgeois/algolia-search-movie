@@ -11,7 +11,7 @@ import {
 } from "react-instantsearch-dom";
 import { Link } from "react-router-dom";
 import { getSearchClient } from "../helpers";
-import { CustomHit } from "./CustomHit";
+import { CustomHit } from "../components";
 
 export const SearchPage: FC = () => (
   <>
