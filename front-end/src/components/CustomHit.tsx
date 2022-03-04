@@ -1,17 +1,20 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { Button, Paper, Typography } from "@mui/material";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Highlight } from "react-instantsearch-dom";
 import { useNavigate } from "react-router";
 import { deleteMovie } from "../helpers";
 import { CustomHit as Hit } from "../types";
+import { Loader } from "./Loader";
 
 export const CustomHit: FC<Hit> = ({ hit }) => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const image = new Image();
   image.src = hit.image;
 
+  if (loading) return <Loader />;
   return (
     <Paper
       css={css`
@@ -42,7 +45,14 @@ export const CustomHit: FC<Hit> = ({ hit }) => {
             flex-direction: row;
           `}
         >
-          <Button onClick={() => deleteMovie(hit.objectID)} variant="outlined">
+          <Button
+            onClick={async () => {
+              setLoading(true);
+              await deleteMovie(hit.objectID);
+              window.location.reload();
+            }}
+            variant="outlined"
+          >
             Delete the movie
           </Button>
           <Button
