@@ -1,10 +1,11 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Movie } from "../types";
 import { v4 as uuidv4 } from "uuid";
 import { addMovie } from "../helpers";
 import { useNavigate } from "react-router-dom";
 import { Form } from "./Form";
+import { Loader } from "./Loader";
 
 const newMovieValues: Movie = {
   objectID: uuidv4(),
@@ -25,11 +26,15 @@ export const AddMoviePage: FC = () => {
     defaultValues: newMovieValues,
   });
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const onSubmit = async (data: Movie) => {
+    setLoading(true);
     await addMovie(data);
+    setLoading(false);
     navigate("/");
   };
 
+  if (loading) return <Loader />;
   return (
     <Form
       control={control}

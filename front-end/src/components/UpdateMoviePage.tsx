@@ -5,6 +5,7 @@ import { Movie } from "../types";
 import { getMovie, updateMovie } from "../helpers";
 import { useNavigate } from "react-router-dom";
 import { Form } from "./Form";
+import { Loader } from "./Loader";
 
 export const UpdateMoviePage: FC = () => {
   const [searchParams] = useSearchParams();
@@ -13,6 +14,7 @@ export const UpdateMoviePage: FC = () => {
     defaultValues: defaultMovie,
   });
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const movieToUpdateId = searchParams.get("objectID");
@@ -37,11 +39,14 @@ export const UpdateMoviePage: FC = () => {
   }, [defaultMovie]);
 
   const onSubmit = async (data: Movie) => {
+    setLoading(true);
     await updateMovie(data);
+    setLoading(false);
     navigate("/");
   };
 
   if (!defaultMovie) return null;
+  if (loading) return <Loader />;
   return (
     <Form
       control={control}
