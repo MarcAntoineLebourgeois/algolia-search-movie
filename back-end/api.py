@@ -57,20 +57,18 @@ def insert_movie(movie):
 def get_movies():
     movies = []
     try:
-        # Create a SQL connection to our SQLite database
-        conn = sqlite3.connect("./database.sqlite")
-        conn.row_factory = sqlite3.Row # This enables column access by name: row['column_name'] 
+        conn = connect_to_db()
+        conn.row_factory = sqlite3.Row
         db = conn.cursor()
         movie_list = db.execute('''
         SELECT * from movieTable
         ''').fetchall()
         conn.commit()
-        # Be sure to close the connection
         conn.close()
         movies = [dict(movie) for movie in movie_list]
     except: 
         movies = []
-    return movies
+    return movies, 200
 
 
 def get_movie_by_id(movie_id):
@@ -95,7 +93,7 @@ def get_movie_by_id(movie_id):
         movie["objectID"] = row["objectID"]
     except:
         movie = {}
-    return movie
+    return movie, 200
 
 
 def update_movie(movie):
@@ -131,7 +129,7 @@ def delete_movie(movie_id):
     finally:
         conn.close()
 
-    return message
+    return message, 204
 
 
 
