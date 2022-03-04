@@ -10,7 +10,7 @@ import { Loader } from "./Loader";
 export const UpdateMoviePage: FC = () => {
   const [searchParams] = useSearchParams();
   const [defaultMovie, setDefaultMovie] = useState<Movie>();
-  const { handleSubmit, reset, control, setValue } = useForm<Movie>({
+  const { handleSubmit, control, setValue } = useForm<Movie>({
     defaultValues: defaultMovie,
   });
   const navigate = useNavigate();
@@ -51,7 +51,6 @@ export const UpdateMoviePage: FC = () => {
     <Form
       control={control}
       handleSubmit={handleSubmit}
-      reset={reset}
       onSubmit={onSubmit}
       defaultValues={defaultMovie}
       pageTitle={"Update Movie Page"}

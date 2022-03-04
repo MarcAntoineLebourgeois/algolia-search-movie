@@ -7,11 +7,11 @@ import { FormInputText } from "./FormInputText";
 
 type FormProps = {
   handleSubmit: UseFormHandleSubmit<Movie>;
-  reset: UseFormReset<Movie>;
   defaultValues: Movie;
   control: Control<Movie, any>; //eslint-disable-line
   onSubmit: (data: Movie) => Promise<void>;
   pageTitle: string;
+  reset?: UseFormReset<Movie>;
 };
 
 export const Form: FC<FormProps> = ({
@@ -52,8 +52,10 @@ export const Form: FC<FormProps> = ({
     <Button onClick={handleSubmit(onSubmit)} variant={"contained"}>
       Submit
     </Button>
-    <Button onClick={() => reset()} variant={"outlined"}>
-      Reset
-    </Button>
+    {reset && (
+      <Button onClick={() => reset()} variant={"outlined"}>
+        Reset
+      </Button>
+    )}
   </Paper>
 );
