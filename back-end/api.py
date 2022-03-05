@@ -2,23 +2,24 @@
 import sqlite3
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from database_generation import database_generation 
+from database_generation import database_generation
 from os import getenv
 from algoliasearch.search_client import SearchClient
 from dotenv import load_dotenv, find_dotenv
 
 
 def connect_to_db():
-    conn = sqlite3.connect('./database.sqlite')
+    conn = sqlite3.connect("./database.sqlite")
     return conn
+
 
 # Algolia search
 def update_algolia_index(array, method):
     try:
         load_dotenv(find_dotenv())
-        ALGOLIA_APP_ID = getenv('ALGOLIA_APP_ID')
-        ALGOLIA_API_KEY = getenv('ALGOLIA_API_KEY')
-        ALGOLIA_INDEX_NAME = getenv('ALGOLIA_INDEX_NAME')
+        ALGOLIA_APP_ID = getenv("ALGOLIA_APP_ID")
+        ALGOLIA_API_KEY = getenv("ALGOLIA_API_KEY")
+        ALGOLIA_INDEX_NAME = getenv("ALGOLIA_INDEX_NAME")
         client = SearchClient.create(ALGOLIA_APP_ID, ALGOLIA_API_KEY)
         index = client.init_index(ALGOLIA_INDEX_NAME)
         if method == "add":
@@ -35,16 +36,29 @@ def update_algolia_index(array, method):
 
 def insert_movie(movie):
     try:
-        update_algolia_index([movie],"add")
+        update_algolia_index([movie], "add")
         conn = connect_to_db()
         cur = conn.cursor()
-        cur.execute("""
+        cur.execute(
+            """
         INSERT INTO movieTable (
             title, alternative_titles, year, image, color, score, rating, actors, actor_facets, genre, objectID
             )
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """
-        ,(movie['title'], movie['alternative_titles'], movie['year'], movie['image'], movie['color'], movie['score'], movie['rating'], movie['actors'], movie['actor_facets'], movie['genre'], movie['objectID']) 
+        """,
+            (
+                movie["title"],
+                movie["alternative_titles"],
+                movie["year"],
+                movie["image"],
+                movie["color"],
+                movie["score"],
+                movie["rating"],
+                movie["actors"],
+                movie["actor_facets"],
+                movie["genre"],
+                movie["objectID"],
+            ),
         )
         conn.commit()
     except:
@@ -59,13 +73,15 @@ def get_movies():
         conn = connect_to_db()
         conn.row_factory = sqlite3.Row
         db = conn.cursor()
-        movie_list = db.execute('''
+        movie_list = db.execute(
+            """
         SELECT * from movieTable
-        ''').fetchall()
+        """
+        ).fetchall()
         conn.commit()
         conn.close()
         movies = [dict(movie) for movie in movie_list]
-    except: 
+    except:
         movies = []
     return movies
 
@@ -97,14 +113,27 @@ def get_movie_by_id(movie_id):
 
 def update_movie(movie):
     try:
-        update_algolia_index([movie],"update")
+        update_algolia_index([movie], "update")
         conn = connect_to_db()
         cur = conn.cursor()
-        cur.execute("""
+        cur.execute(
+            """
         UPDATE movieTable SET title = ?, alternative_titles = ?, year = ?, image = ?, color = ?, score = ?, rating = ?, actors = ?, actor_facets = ?, genre = ?  
         WHERE objectID = ?
-        """, 
-        (movie['title'], movie['alternative_titles'], movie['year'], movie['image'], movie['color'], movie['score'], movie['rating'], movie['actors'], movie['actor_facets'], movie['genre'], movie['objectID']) 
+        """,
+            (
+                movie["title"],
+                movie["alternative_titles"],
+                movie["year"],
+                movie["image"],
+                movie["color"],
+                movie["score"],
+                movie["rating"],
+                movie["actors"],
+                movie["actor_facets"],
+                movie["genre"],
+                movie["objectID"],
+            ),
         )
         conn.commit()
     except:
@@ -113,11 +142,10 @@ def update_movie(movie):
         conn.close()
 
 
-
 def delete_movie(movie_id):
     message = {}
     try:
-        update_algolia_index([movie_id],"delete")
+        update_algolia_index([movie_id], "delete")
         conn = connect_to_db()
         conn.execute("DELETE from movieTable WHERE objectID = ?", (movie_id,))
         conn.commit()
@@ -131,35 +159,40 @@ def delete_movie(movie_id):
     return message
 
 
-
 database_generation()
 movies = get_movies()
-update_algolia_index(movies,"add")
+update_algolia_index(movies, "add")
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-@app.route('/api/v1/movies', methods=['GET'])
+
+@app.route("/api/v1/movies", methods=["GET"])
 def api_get_movies():
     return jsonify(get_movies())
 
-@app.route('/api/v1/movies/<movie_id>', methods=['GET'])
+
+@app.route("/api/v1/movies/<movie_id>", methods=["GET"])
 def api_get_movie(movie_id):
     return jsonify(get_movie_by_id(movie_id))
 
-@app.route('/api/v1/movies/add',  methods = ['POST'])
+
+@app.route("/api/v1/movies/add", methods=["POST"])
 def api_add_movie():
     movie = request.get_json()
     return jsonify(insert_movie(movie))
 
-@app.route('/api/v1/movies/update',  methods = ['PUT'])
+
+@app.route("/api/v1/movies/update", methods=["PUT"])
 def api_update_movie():
     movie = request.get_json()
     return jsonify(update_movie(movie))
 
-@app.route('/api/v1/movies/delete/<movie_id>',  methods = ['DELETE'])
+
+@app.route("/api/v1/movies/delete/<movie_id>", methods=["DELETE"])
 def api_delete_movie(movie_id):
     return jsonify(delete_movie(movie_id))
+
 
 if __name__ == "__main__":
     app.debug = True
