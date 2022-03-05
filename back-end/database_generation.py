@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 def database_generation():
-    db = sqlite3.connect("./database.sqlite")
+    database = sqlite3.connect("./database.sqlite")
     with open("./movies.json", encoding="utf-8-sig") as json_file:
         json_data = json.loads(json_file.read())
 
@@ -30,17 +30,17 @@ def database_generation():
             value.clear()
 
         # Time to generate the create and insert queries and apply it to the sqlite3 database
-        create_query = "create table if not exists movieTable ({0})".format(
+        create_query = "create table if not exists movieTable ({})".format(
             ",".join(columns)
         )
         insert_query = "insert into movieTable ({0}) values (?{1})".format(
             ",".join(columns), ",?" * (len(columns) - 1)
         )
         print("insert has started at " + str(datetime.now()))
-        cur = db.cursor()
+        cur = database.cursor()
         cur.execute(create_query)
         cur.executemany(insert_query, values)
         values.clear()
-        db.commit()
+        database.commit()
         cur.close()
         print("insert has completed at " + str(datetime.now()))
