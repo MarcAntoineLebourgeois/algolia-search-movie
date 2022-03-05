@@ -1,27 +1,26 @@
 #!/usr/bin/python
 import sqlite3
+from os import getenv
+from dotenv import load_dotenv, find_dotenv
+from algoliasearch.search_client import SearchClient
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from database_generation import database_generation
-from os import getenv
-from algoliasearch.search_client import SearchClient
-from dotenv import load_dotenv, find_dotenv
 
 
 def connect_to_db():
-    conn = sqlite3.connect("./database.sqlite")
-    return conn
+    return sqlite3.connect("./database.sqlite")
 
 
 # Algolia search
 def update_algolia_index(array, method):
     try:
         load_dotenv(find_dotenv())
-        ALGOLIA_APP_ID = getenv("ALGOLIA_APP_ID")
-        ALGOLIA_API_KEY = getenv("ALGOLIA_API_KEY")
-        ALGOLIA_INDEX_NAME = getenv("ALGOLIA_INDEX_NAME")
-        client = SearchClient.create(ALGOLIA_APP_ID, ALGOLIA_API_KEY)
-        index = client.init_index(ALGOLIA_INDEX_NAME)
+        algolia_api_id = getenv("ALGOLIA_APP_ID")
+        algolia_api_key = getenv("ALGOLIA_API_KEY")
+        algolia_index_name = getenv("ALGOLIA_INDEX_NAME")
+        client = SearchClient.create(algolia_api_id, algolia_api_key)
+        index = client.init_index(algolia_index_name)
         if method == "add":
             res = index.save_objects(array)
         if method == "delete":
@@ -29,7 +28,6 @@ def update_algolia_index(array, method):
         if method == "update":
             res = index.partial_update_objects(array)
         res.wait()
-        # index.clear_objects()
     except:
         print("Could not update Algolia index")
 
@@ -43,15 +41,15 @@ def insert_movie(movie):
             """
         INSERT INTO movieTable (
             title,
-            alternative_titles, 
-            year, 
-            image, 
-            color, 
-            score, 
-            rating, 
-            actors, 
-            actor_facets, 
-            genre, 
+            alternative_titles,
+            year,
+            image,
+            color,
+            score,
+            rating,
+            actors,
+            actor_facets,
+            genre,
             objectID
             )
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -82,8 +80,8 @@ def get_movies():
     try:
         conn = connect_to_db()
         conn.row_factory = sqlite3.Row
-        db = conn.cursor()
-        movie_list = db.execute(
+        database = conn.cursor()
+        movie_list = database.execute(
             """
         SELECT * from movieTable
         """
@@ -128,17 +126,17 @@ def update_movie(movie):
         cur = conn.cursor()
         cur.execute(
             """
-        UPDATE movieTable 
+        UPDATE movieTable
         SET title = ?,
             alternative_titles = ?,
             year = ?,
             image = ?,
             color = ?,
             score = ?,
-            rating = ?, 
-            actors = ?, 
-            actor_facets = ?, 
-            genre = ?  
+            rating = ?,
+            actors = ?,
+            actor_facets = ?,
+            genre = ?
         WHERE objectID = ?
         """,
             (
