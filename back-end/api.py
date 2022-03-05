@@ -42,7 +42,17 @@ def insert_movie(movie):
         cur.execute(
             """
         INSERT INTO movieTable (
-            title, alternative_titles, year, image, color, score, rating, actors, actor_facets, genre, objectID
+            title,
+            alternative_titles, 
+            year, 
+            image, 
+            color, 
+            score, 
+            rating, 
+            actors, 
+            actor_facets, 
+            genre, 
+            objectID
             )
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
@@ -118,7 +128,17 @@ def update_movie(movie):
         cur = conn.cursor()
         cur.execute(
             """
-        UPDATE movieTable SET title = ?, alternative_titles = ?, year = ?, image = ?, color = ?, score = ?, rating = ?, actors = ?, actor_facets = ?, genre = ?  
+        UPDATE movieTable 
+        SET title = ?,
+            alternative_titles = ?,
+            year = ?,
+            image = ?,
+            color = ?,
+            score = ?,
+            rating = ?, 
+            actors = ?, 
+            actor_facets = ?, 
+            genre = ?  
         WHERE objectID = ?
         """,
             (
