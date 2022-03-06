@@ -162,20 +162,16 @@ def update_movie(movie):
 
 
 def delete_movie(movie_id):
-    message = {}
     try:
         update_algolia_index([movie_id], "delete")
         conn = connect_to_db()
         conn.execute("DELETE from movieTable WHERE objectID = ?", (movie_id,))
         conn.commit()
-        message["status"] = "movie deleted successfully"
     except sqlite3.Error as error:
         print(error)
         conn.rollback()
-        message["status"] = "Cannot delete movie"
     finally:
         conn.close()
-    return message
 
 
 database_generation()
