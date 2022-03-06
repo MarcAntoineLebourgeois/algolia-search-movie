@@ -3,10 +3,10 @@ import sqlite3
 from os import getenv
 from dotenv import load_dotenv, find_dotenv
 from algoliasearch.search_client import SearchClient
+from algoliasearch.exceptions import AlgoliaException
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from database_generation import database_generation
-
 
 def connect_to_db():
     return sqlite3.connect("./database.sqlite")
@@ -23,11 +23,13 @@ def update_algolia_index(array, method):
         index = client.init_index(algolia_index_name)
         if method == "add":
             res = index.save_objects(array)
-        if method == "delete":
+        elif method == "delete":
             res = index.delete_objects(array)
-        if method == "update":
+        elif method == "update":
             res = index.partial_update_objects(array)
         res.wait()
+    except AlgoliaException:
+        print(AlgoliaException)
     except:
         print("Could not update Algolia index")
 
