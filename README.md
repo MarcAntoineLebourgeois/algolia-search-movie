@@ -60,3 +60,8 @@ For front-end, go to the front-end folder:
 ```bash
 yarn run check
 ```
+
+## Notes:
+
+- Algolia index has been created manually using the web console.
+- For security concern, the frontend API key uses a search-only API key.
