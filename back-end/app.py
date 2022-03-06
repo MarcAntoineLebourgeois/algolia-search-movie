@@ -13,7 +13,16 @@ def connect_to_db():
     """Connection to the local sqlite database"""
     return sqlite3.connect("./database.sqlite")
 
+def check_algolia_api_key():
+    """Check the presence of the algolia API key in the back-end/.env file"""
+    load_dotenv(find_dotenv())
+    algolia_api_key = getenv("ALGOLIA_API_KEY")
+    if (algolia_api_key is None):
+        print("No Algolia API key from .env file! Contact the administrator to get it.")
+        return 401
+    return 200
 
+        
 # Algolia search
 def update_algolia_index(array, method):
     """Update the Algolia Index using API"""
@@ -21,8 +30,8 @@ def update_algolia_index(array, method):
     algolia_api_id = getenv("ALGOLIA_APP_ID")
     algolia_api_key = getenv("ALGOLIA_API_KEY")
     algolia_index_name = getenv("ALGOLIA_INDEX_NAME")
-    if (algolia_api_key is None):
-        return print("No API key from .env file! Contact the administrator to get it.")
+    if check_algolia_api_key() == 401:
+        return 500
     try:
         client = SearchClient.create(algolia_api_id, algolia_api_key)
         index = client.init_index(algolia_index_name)
@@ -42,6 +51,8 @@ def update_algolia_index(array, method):
 
 def insert_movie(movie):
     """Add a movie in the local database AND in the Algolia index"""
+    if check_algolia_api_key() == 401:
+        return 500
     try:
         update_algolia_index([movie], "add")
         conn = connect_to_db()
@@ -131,6 +142,8 @@ def get_movie_by_id(movie_id):
 
 def update_movie(movie):
     """Update a movie in the local database AND in the Algolia index"""
+    if check_algolia_api_key() == 401:
+        return 500
     try:
         update_algolia_index([movie], "update")
         conn = connect_to_db()
@@ -174,6 +187,8 @@ def update_movie(movie):
 
 def delete_movie(movie_id):
     """Delete a movie from the local database AND from the Algolia index"""
+    if check_algolia_api_key() == 401:
+        return
     try:
         update_algolia_index([movie_id], "delete")
         conn = connect_to_db()
@@ -193,33 +208,31 @@ update_algolia_index(movies, "add")
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
+@app.route("/api/v1/check_api_key", methods=["GET"])
+def api_check_algolia_api_key():
+    return jsonify(check_algolia_api_key())
 
 @app.route("/api/v1/movies", methods=["GET"])
 def api_get_movies():
     return jsonify(get_movies())
 
-
 @app.route("/api/v1/movies/<movie_id>", methods=["GET"])
 def api_get_movie(movie_id):
     return jsonify(get_movie_by_id(movie_id))
-
 
 @app.route("/api/v1/movies/add", methods=["POST"])
 def api_add_movie():
     movie = request.get_json()
     return jsonify(insert_movie(movie))
 
-
 @app.route("/api/v1/movies/update", methods=["PUT"])
 def api_update_movie():
     movie = request.get_json()
     return jsonify(update_movie(movie))
 
-
 @app.route("/api/v1/movies/delete/<movie_id>", methods=["DELETE"])
 def api_delete_movie(movie_id):
     return jsonify(delete_movie(movie_id))
-
 
 if __name__ == "__main__":
     app.debug = True
