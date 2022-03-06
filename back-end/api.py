@@ -8,6 +8,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from database_generation import database_generation
 
+
 def connect_to_db():
     return sqlite3.connect("./database.sqlite")
 
@@ -28,8 +29,8 @@ def update_algolia_index(array, method):
         elif method == "update":
             res = index.partial_update_objects(array)
         res.wait()
-    except AlgoliaException:
-        print(AlgoliaException)
+    except AlgoliaException as error:
+        print(error)
     except:
         print("Could not update Algolia index")
 
@@ -71,7 +72,8 @@ def insert_movie(movie):
             ),
         )
         conn.commit()
-    except:
+    except sqlite3.Error as error:
+        print(error)
         conn().rollback()
     finally:
         conn.close()
@@ -83,16 +85,12 @@ def get_movies():
         conn = connect_to_db()
         conn.row_factory = sqlite3.Row
         database = conn.cursor()
-        movie_list = database.execute(
-            """
-        SELECT * from movieTable
-        """
-        ).fetchall()
+        movie_list = database.execute("SELECT * from movieTable").fetchall()
         conn.commit()
         conn.close()
         movies = [dict(movie) for movie in movie_list]
-    except:
-        movies = []
+    except sqlite3.Error as error:
+        print(error)
     return movies
 
 
@@ -116,8 +114,8 @@ def get_movie_by_id(movie_id):
         movie["actor_facets"] = row["actor_facets"]
         movie["genre"] = row["genre"]
         movie["objectID"] = row["objectID"]
-    except:
-        movie = {}
+    except sqlite3.Error as error:
+        print(error)
     return movie
 
 
@@ -156,7 +154,8 @@ def update_movie(movie):
             ),
         )
         conn.commit()
-    except:
+    except sqlite3.Error as error:
+        print(error)
         conn.rollback()
     finally:
         conn.close()
@@ -170,12 +169,12 @@ def delete_movie(movie_id):
         conn.execute("DELETE from movieTable WHERE objectID = ?", (movie_id,))
         conn.commit()
         message["status"] = "movie deleted successfully"
-    except:
+    except sqlite3.Error as error:
+        print(error)
         conn.rollback()
         message["status"] = "Cannot delete movie"
     finally:
         conn.close()
-
     return message
 
 
