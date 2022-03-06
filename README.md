@@ -18,11 +18,11 @@ Otherwise,
 pip install --user pipenv
 ```
 
-````bash
+```bash
 pipenv shell
 pipenv install
-export FLASK_APP=api
 flask run
+```
 
 By default, the development server listens on [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
@@ -35,7 +35,7 @@ In the front-end folder,
 ```bash
 yarn install
 yarn start
-````
+```
 
 By default, the development server listens on [http://127.0.0.1:3000](http://127.0.0.1:3000)
 
