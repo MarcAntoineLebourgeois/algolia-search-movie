@@ -26,7 +26,7 @@ def database_generation():
                 value.append(str(dict(data).get(col)))
             else:
                 value.append(dict(data).get(col))
-        values.append(value)
+        values.append(list(value))
         value.clear()
 
     # Time to generate the create and insert queries and apply it to the sqlite3 database
