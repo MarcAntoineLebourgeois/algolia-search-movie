@@ -7,19 +7,19 @@ type FormInputProps = {
   control: any; // eslint-disable-line
   label: string;
   value?: string;
-  isRequired?: boolean;
+  required?: boolean;
 };
 
 export const FormInputText = ({
   name,
   control,
   label,
-  isRequired,
+  required,
 }: FormInputProps) => (
   <Controller
     name={name}
     control={control}
-    rules={{ required: isRequired ? true : false }}
+    rules={{ required }}
     render={({ field: { onChange, value }, fieldState: { error } }) => (
       <TextField
         helperText={error ? error.message : null}
@@ -30,7 +30,7 @@ export const FormInputText = ({
         fullWidth
         label={label}
         variant="outlined"
-        required={isRequired ? true : false}
+        required={required}
       />
     )}
   />

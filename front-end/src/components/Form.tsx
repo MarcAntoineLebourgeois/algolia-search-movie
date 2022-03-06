@@ -39,7 +39,7 @@ export const Form: FC<FormProps> = ({
       name="title"
       control={control}
       label="Title"
-      isRequired={true}
+      required={true}
     />
     <FormInputText
       name="alternative_titles"
