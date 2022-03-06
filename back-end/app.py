@@ -10,11 +10,13 @@ from database_generation import database_generation
 
 
 def connect_to_db():
+    """Connection to the local sqlite database """
     return sqlite3.connect("./database.sqlite")
 
 
 # Algolia search
 def update_algolia_index(array, method):
+    """Update the Algolia Index using API"""
     try:
         load_dotenv(find_dotenv())
         algolia_api_id = getenv("ALGOLIA_APP_ID")
@@ -37,6 +39,7 @@ def update_algolia_index(array, method):
 
 
 def insert_movie(movie):
+    """Add a movie in the local database AND in the Algolia index"""
     try:
         update_algolia_index([movie], "add")
         conn = connect_to_db()
@@ -81,6 +84,7 @@ def insert_movie(movie):
 
 
 def get_movies():
+    """Get an array of all movies from the local database"""
     movies = []
     try:
         conn = connect_to_db()
@@ -97,6 +101,7 @@ def get_movies():
 
 
 def get_movie_by_id(movie_id):
+    """Get a movie from the local database"""
     movie = {}
     try:
         conn = connect_to_db()
@@ -123,6 +128,7 @@ def get_movie_by_id(movie_id):
 
 
 def update_movie(movie):
+    """Update a movie in the local database AND in the Algolia index"""
     try:
         update_algolia_index([movie], "update")
         conn = connect_to_db()
@@ -165,6 +171,7 @@ def update_movie(movie):
 
 
 def delete_movie(movie_id):
+    """Delete a movie from the local database AND from the Algolia index"""
     try:
         update_algolia_index([movie_id], "delete")
         conn = connect_to_db()
