@@ -28,6 +28,7 @@ def update_algolia_index(array, method):
             res = index.delete_objects(array)
         elif method == "update":
             res = index.partial_update_objects(array)
+        # index.clear_objects()
         res.wait()
     except AlgoliaException as error:
         print(error)
@@ -91,6 +92,7 @@ def get_movies():
         movies = [dict(movie) for movie in movie_list]
     except sqlite3.Error as error:
         print(error)
+        conn.rollback()
     return movies
 
 
@@ -116,6 +118,7 @@ def get_movie_by_id(movie_id):
         movie["objectID"] = row["objectID"]
     except sqlite3.Error as error:
         print(error)
+        conn.rollback()
     return movie
 
 

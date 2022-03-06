@@ -4,6 +4,7 @@
 - Python & Flask are used for the back-end and TypeScript & React for the front-end.
 - Please use a python version >=3.8.
 - Please use a node version >=12.
+- The back-end Algolia API key is not provided in this repository. Please contact me for getting it and fully use the app.
 
 ## Installation
 
@@ -66,7 +67,7 @@ yarn run check
 
 - I created a personal account in Algolia and secure it with 2FA.
 - Algolia index has been created manually using the web console.
-- For security concern, the frontend API key uses a search-only API key.
-- Exceptionally, as the data has no value, I commited secrets. I understand not to do this in the real world. This way, the interviewer can directly use the app. :)
+- For security concern, the front-end API key uses a search-only API key.
+- The back-end Algolia API key is not provided in this repository. Please contact me for getting it and fully use the app.
 
 I really hope you enjoy it :D
