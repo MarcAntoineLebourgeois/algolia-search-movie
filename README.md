@@ -52,7 +52,7 @@ pipenv run pytest
 For back-end analysis, go to the back-end folder:
 
 ```bash
-pipenv run pylint
+pipenv run pylint {{name of the file}}
 ```
 
 For front-end, go to the front-end folder:
