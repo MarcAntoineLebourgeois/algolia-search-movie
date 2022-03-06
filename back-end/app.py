@@ -10,18 +10,20 @@ from database_generation import database_generation
 
 
 def connect_to_db():
-    """Connection to the local sqlite database """
+    """Connection to the local sqlite database"""
     return sqlite3.connect("./database.sqlite")
 
 
 # Algolia search
 def update_algolia_index(array, method):
     """Update the Algolia Index using API"""
+    load_dotenv(find_dotenv())
+    algolia_api_id = getenv("ALGOLIA_APP_ID")
+    algolia_api_key = getenv("ALGOLIA_API_KEY")
+    algolia_index_name = getenv("ALGOLIA_INDEX_NAME")
+    if (algolia_api_key is None):
+        return print("No API key from .env file! Contact the administrator to get it.")
     try:
-        load_dotenv(find_dotenv())
-        algolia_api_id = getenv("ALGOLIA_APP_ID")
-        algolia_api_key = getenv("ALGOLIA_API_KEY")
-        algolia_index_name = getenv("ALGOLIA_INDEX_NAME")
         client = SearchClient.create(algolia_api_id, algolia_api_key)
         index = client.init_index(algolia_index_name)
         if method == "add":
