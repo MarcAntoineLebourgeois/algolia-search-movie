@@ -63,7 +63,7 @@ For front-end analysis, go to the front-end folder and run:
 yarn run check
 ```
 
-## Algolia:
+## Algolia and security:
 
 - I created a personal account in Algolia and secure it with 2FA.
 - Algolia index has been created manually using the web console.
