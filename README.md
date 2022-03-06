@@ -1,7 +1,7 @@
 # algolia-search-movie
 
 This project is an Algolia interview assessment.
-Python & Flask are used for the back-end and React & Typescript for the front-end.
+Python & Flask are used for the back-end and TypeScript & React for the front-end.
 
 ## Installation
 
@@ -12,15 +12,19 @@ Python & Flask are used for the back-end and React & Typescript for the front-en
 In the back-end folder,
 
 2- Use the package manager [pipenv](https://pipenv-es.readthedocs.io/es/stable/) and run the following commands:
+Otherwise,
 
 ```bash
+pip install --user pipenv
+```
+
+````bash
 pipenv shell
 pipenv install
 export FLASK_APP=api
 flask run
-```
 
-The local server should run by default on http://127.0.0.1:5000
+By default, the development server listens on [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
 ### Front-end
 
@@ -31,20 +35,27 @@ In the front-end folder,
 ```bash
 yarn install
 yarn start
-```
+````
 
-The local server should run by default on http://127.0.0.1:3000
+By default, the development server listens on [http://127.0.0.1:3000](http://127.0.0.1:3000)
 
 ## Tests
 
 For back-end tests, go to the back-end folder:
 
 ```bash
-pipenv shell
-pytest
+pipenv run pytest
 ```
 
-For front-end tests, go to the front-end folder:
+## Static analysis
+
+For back-end analysis, go to the back-end folder:
+
+```bash
+pipenv run pylint
+```
+
+For front-end, go to the front-end folder:
 
 ```bash
 yarn run check
