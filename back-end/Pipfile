@@ -12,6 +12,7 @@ pytest = "*"
 jsonschema = "*"
 black = "*"
 pylint = "*"
+flask-cors = "*"
 
 [dev-packages]
 
